@@ -1,0 +1,58 @@
+
+Setting up VPC in AWS
+
+a. Create a VPC by clicking Create VPC button
+b. Enter a name like my_company_vpc
+c. Enter CIDR Block 10.0.0.0/16
+d. Leave Tenancy as Default and click "Yes Create"
+
+Setting up VPC Subnets
+
+a. Create multiple subnets by clicking create subnet button
+b. Enter a name tag like my_webserver_subnet
+c. Under VPC drop down menu, select my_company_vpc
+d. Under Availability zone, select a preferred zone like us-east-1b
+e  Under CIDR block, type in 10.0.1.0/24
+f  Repeat steps a through e for additional subnets. For example step b can be my_database_subnet and step e 10.0.2.0/24
+
+Setting up Internet Gateway
+
+a. Create Internet gateway by clicking the create internet gateway button.
+b. Enter the name tag like my_company_gateway for your gateway
+c. Select my_company_gateway and attach it to my_company_vpc.
+
+Setting up Route Table
+
+a. Click the create route table button
+b. Enter a name tag like my_company_route
+c. Under the VPC drop down menu, select my_company_vpc and click yes create
+d. Select my_company_route from list and click the Routes button below
+f. Click edit and add destination "0.0.0.0/0" in first box
+g. Under target, enter the ID of the my_company_gateway previously created.
+h. Click Subnet Associations button next to Routes
+i  Click edit and check all the boxes of the VPC subnets and save.
+
+Setting up VPC Security Group
+a. Select Security Groups in menu and click Create SEcurity GRoup button
+b. Enter name tag my_company_security
+c. Enter Description My company's vpc security group
+d. Select my_company_vpc from VPC dropdown menu and click yes create.
+e. Select newly created my_company_security from list and click edit
+f. Add type All traffic and under source, select the security group ID of my_company_security (This ensures all servers in the VPC sec group can talk to each other)
+g. Rather than adding your security group ID, you can also manually create rules for all your subnets by specifying specific ports for each subnet.
+
+Setting up a NAT server
+a. Click on EC2 option and click the launch instance button.
+b. Under the Community AMI option type in "nat" and select the nat image of your choice
+c. From the next screen, select the server type of your choice or leave as t2.micro.
+d  Click Next Configuration Details button and choose the my_company_vpc option from Network dropdown menu.
+e Select your subnet of choice. Make sure subnet selected is attached to a route in the "setting up route table step"
+f  Make sure "Auto Assign Public IP" is set to disable.
+g. Click add storage and increase storage if needed or leave as default.
+h. Click Add Next Tags and include a value 'nat_server' next to Name.
+i. Click Configure security group button and select the my_company_security group from "Select an existing security group" option.
+J. Click Review button and click launch button in next window.
+K. Click Launch and select an existing key or create new one. Then click launch instances.
+L. While instance is being created, select elastic IP option from side menu and click Allocate new address button.
+M. From EIP used in option, select VPC from dropdown menu.
+N. Associate the newly created public IP to the nat_server by selecting nat_server ID from Instance dropdown menu.
