@@ -46,7 +46,7 @@ a. Click on EC2 option and click the launch instance button.
 b. Under the Community AMI option type in "nat" and select the nat image of your choice
 c. From the next screen, select the server type of your choice or leave as t2.micro.
 d  Click Next Configuration Details button and choose the my_company_vpc option from Network dropdown menu.
-e Select your subnet of choice. Make sure subnet selected is attached to a route in the "setting up route table step"
+e  Select your subnet of choice. Make sure subnet selected is attached to a route in the "setting up route table step"
 f  Make sure "Auto Assign Public IP" is set to disable.
 g. Click add storage and increase storage if needed or leave as default.
 h. Click Add Next Tags and include a value 'nat_server' next to Name.
@@ -56,3 +56,11 @@ K. Click Launch and select an existing key or create new one. Then click launch 
 L. While instance is being created, select elastic IP option from side menu and click Allocate new address button.
 M. From EIP used in option, select VPC from dropdown menu.
 N. Associate the newly created public IP to the nat_server by selecting nat_server ID from Instance dropdown menu.
+O. Setup a new route table for NAT server by repeating steps in "Create Route Table" and change step "g" to the server ID of nat_server
+
+Setting up a jump server with a separate route table
+a. Repeat the steps "Create new subnet" and type subnet like 10.0.254.0/24 and name like my_company_jump
+b. Add this newly created subnet to the my_company_route table.
+c. Launch a new instance and make sure the my_company_jump subnet is selected in the networking section.
+d. Make sure server is added to my_company_security group and proper rules are setup to allow access to this server from internet.
+e. Allocate an elastic IP to this new jump server and test connection to all servers created within the nat.
